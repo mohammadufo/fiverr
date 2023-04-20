@@ -17,11 +17,13 @@ import MyGigs from "./pages/myGigs/MyGigs";
 function App() {
   const Layout = () => {
     return (
-      <div className="app">
-        <Navbar />
-        <Outlet />
-        <Footer />
-      </div>
+      <>
+        <div className="app">
+          <Navbar />
+          <Outlet />
+          <Footer />
+        </div>
+      </>
     );
   };
 

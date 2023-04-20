@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./Navbar.scss";
+import newRequest from "../../utils/newRequest";
+import { toast } from "react-toastify";
 
 function Navbar() {
   const [active, setActive] = useState(false);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   const isActive = () => {
     window.scrollY > 0 ? setActive(true) : setActive(false);
@@ -19,14 +23,21 @@ function Navbar() {
     };
   }, []);
 
-  // const currentUser = null
+  const currentUser = JSON.parse(localStorage.getItem("user"));
 
-  const currentUser = {
-    id: 1,
-    username: "Anna",
-    isSeller: true,
+  const handleLogout = async () => {
+    try {
+      setLoading(true);
+      await newRequest.post("/auth/logout");
+      toast("ok! you logged out!");
+      localStorage.removeItem("user");
+      navigate("/");
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+    }
   };
-
   return (
     <div className={active || pathname !== "/" ? "navbar active" : "navbar"}>
       <div className="container">
@@ -42,33 +53,38 @@ function Navbar() {
           <span>English</span>
           {!currentUser?.isSeller && <span>Become a Seller</span>}
           {currentUser ? (
-            <div className="user" onClick={()=>setOpen(!open)}>
+            <div className="user" onClick={() => setOpen(!open)}>
               <img
-                src="https://images.pexels.com/photos/1115697/pexels-photo-1115697.jpeg?auto=compress&cs=tinysrgb&w=1600"
+                src={
+                  currentUser?.img ||
+                  "https://static.vecteezy.com/system/resources/previews/002/275/847/original/male-avatar-profile-icon-of-smiling-caucasian-man-vector.jpg"
+                }
                 alt=""
               />
               <span>{currentUser?.username}</span>
-              {open && <div className="options">
-                {currentUser.isSeller && (
-                  <>
-                    <Link className="link" to="/mygigs">
-                      Gigs
-                    </Link>
-                    <Link className="link" to="/add">
-                      Add New Gig
-                    </Link>
-                  </>
-                )}
-                <Link className="link" to="/orders">
-                  Orders
-                </Link>
-                <Link className="link" to="/messages">
-                  Messages
-                </Link>
-                <Link className="link" to="/">
-                  Logout
-                </Link>
-              </div>}
+              {open && (
+                <div className="options">
+                  {currentUser.isSeller && (
+                    <>
+                      <Link className="link" to="/mygigs">
+                        Gigs
+                      </Link>
+                      <Link className="link" to="/add">
+                        Add New Gig
+                      </Link>
+                    </>
+                  )}
+                  <Link className="link" to="/orders">
+                    Orders
+                  </Link>
+                  <Link className="link" to="/messages">
+                    Messages
+                  </Link>
+                  <Link className="link" to="/" onClick={handleLogout}>
+                    Logout
+                  </Link>
+                </div>
+              )}
             </div>
           ) : (
             <>
