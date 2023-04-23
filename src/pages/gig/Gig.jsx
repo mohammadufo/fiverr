@@ -7,7 +7,7 @@ function Gig() {
     <div className="gig">
       <div className="container">
         <div className="left">
-          <span className="breadcrumbs">Liverr > Graphics & Design ></span>
+          <span className="breadcrumbs">Liverr - Graphics & Design </span>
           <h1>I will create ai generated art for you</h1>
           <div className="user">
             <img
@@ -220,11 +220,11 @@ function Gig() {
                 <span>5</span>
               </div>
               <p>
-                Amazing work! Communication was
-                amazing, each and every day he sent me images that I was free to
-                request changes to. They listened, understood, and delivered
-                above and beyond my expectations. I absolutely recommend this
-                gig, and know already that Ill be using it again very very soon
+                Amazing work! Communication was amazing, each and every day he
+                sent me images that I was free to request changes to. They
+                listened, understood, and delivered above and beyond my
+                expectations. I absolutely recommend this gig, and know already
+                that Ill be using it again very very soon
               </p>
               <div className="helpful">
                 <span>Helpful?</span>
